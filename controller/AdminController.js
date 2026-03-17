@@ -162,7 +162,15 @@ const message = {
 };
 
 const response = await admin.messaging().sendEachForMulticast(message);
+console.log("Success:", response.successCount);
+console.log("Failure:", response.failureCount);
 
+response.responses.forEach((resp, idx) => {
+  if (!resp.success) {
+    console.log("❌ Token:", tokens[idx]);
+    console.log("Error:", resp.error);
+  }
+});
 res.json({
    message:"Notification Sent",
    success:response.successCount
